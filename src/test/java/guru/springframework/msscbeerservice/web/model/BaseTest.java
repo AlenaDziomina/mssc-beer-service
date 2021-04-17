@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import static guru.springframework.msscbeerservice.web.bootstrap.BeerLoader.BEER_3_UPC;
+
 public class BaseTest {
 
     @Autowired
@@ -21,7 +23,7 @@ public class BaseTest {
                 .createdDate(OffsetDateTime.now())
                 .lastModifiedDate(OffsetDateTime.now())
                 .price(new BigDecimal("12.99"))
-                .upc(123123123123L)
+                .upc(BEER_3_UPC)
                 .myLocalDate(LocalDate.now())
                 .build();
     }

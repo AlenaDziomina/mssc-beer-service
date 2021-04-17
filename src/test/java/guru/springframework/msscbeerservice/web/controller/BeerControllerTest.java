@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
+import static guru.springframework.msscbeerservice.web.bootstrap.BeerLoader.BEER_3_UPC;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -86,7 +87,7 @@ class BeerControllerTest {
                 .beerName("New Beer")
                 .beerStyle(BeerStyleEnum.ALE)
                 .price(BigDecimal.TEN)
-                .upc(123L)
+                .upc(BEER_3_UPC)
                 .build();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
@@ -117,7 +118,7 @@ class BeerControllerTest {
                 .beerName("New Beer")
                 .beerStyle(BeerStyleEnum.ALE)
                 .price(BigDecimal.TEN)
-                .upc(123L)
+                .upc(BEER_3_UPC)
                 .build();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 

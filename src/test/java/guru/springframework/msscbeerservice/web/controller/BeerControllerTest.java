@@ -5,6 +5,7 @@ import guru.springframework.msscbeerservice.web.domain.Beer;
 import guru.springframework.msscbeerservice.web.model.BeerDto;
 import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
 import guru.springframework.msscbeerservice.web.repository.BeerRepository;
+import guru.springframework.msscbeerservice.web.service.BeerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,11 +51,11 @@ class BeerControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    BeerRepository beerRepository;
+    BeerService beerService;
 
     @Test
     void getBeerById() throws Exception {
-        given(beerRepository.findById(any())).willReturn(Optional.of(Beer.builder().build()));
+        given(beerService.getById(any())).willReturn(BeerDto.builder().build());
 
         mockMvc.perform(get("/api/v1/beer/{beerId}", UUID.randomUUID().toString())
                 .accept(MediaType.APPLICATION_JSON))
@@ -72,7 +73,8 @@ class BeerControllerTest {
                                 fieldWithPath("beerStyle").description("Beer Style"),
                                 fieldWithPath("upc").description("UPC of Beer"),
                                 fieldWithPath("price").description("Price"),
-                                fieldWithPath("quantityOnHand").description("Quantity On hand")
+                                fieldWithPath("quantityOnHand").description("Quantity On hand"),
+                                fieldWithPath("myLocalDate").description("My local time")
                         )
                 ));
     }
@@ -104,7 +106,8 @@ class BeerControllerTest {
                                 fields.withPath("beerStyle").description("Style of Beer"),
                                 fields.withPath("upc").description("Beer UPC").attributes(),
                                 fields.withPath("price").description("Beer Price"),
-                                fields.withPath("quantityOnHand").ignored()
+                                fields.withPath("quantityOnHand").ignored(),
+                                fields.withPath("myLocalDate").description("My local time")
                         )));
     }
 

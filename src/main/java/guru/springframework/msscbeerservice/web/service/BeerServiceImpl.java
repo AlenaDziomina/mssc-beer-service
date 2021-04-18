@@ -7,7 +7,9 @@ import guru.springframework.msscbeerservice.web.repository.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -40,5 +42,10 @@ public class BeerServiceImpl implements BeerService {
 
             beerRepository.save(beer);
         });
+    }
+
+    @Override
+    public List<BeerDto> getAllBeer() {
+        return beerRepository.findAll().stream().map(beerMapper::beerToBeerDto).collect(Collectors.toList());
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -22,6 +23,11 @@ import java.util.UUID;
 public class BeerController {
 
     private final BeerService beerService;
+
+    @GetMapping
+    public ResponseEntity<List> getBeer() {
+        return new ResponseEntity<>(beerService.getAllBeer(), HttpStatus.OK);
+    }
 
     @GetMapping("/{beerId}")
     public ResponseEntity<BeerDto> getBeerById(@PathVariable("beerId") UUID beerId) {

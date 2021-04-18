@@ -1,8 +1,12 @@
 package guru.springframework.msscbeerservice.web.controller;
 
 import guru.springframework.msscbeerservice.web.model.BeerDto;
+import guru.springframework.msscbeerservice.web.model.BeerPageList;
+import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
 import guru.springframework.msscbeerservice.web.service.BeerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -24,9 +28,15 @@ public class BeerController {
 
     private final BeerService beerService;
 
-    @GetMapping
-    public ResponseEntity<List> getBeer() {
-        return new ResponseEntity<>(beerService.getAllBeer(), HttpStatus.OK);
+    @GetMapping(produces = {"application/json"})
+    public ResponseEntity<BeerPageList> listBeers(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
+                                                  @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
+                                                  @RequestParam(value = "beerName", required = false) String beerName,
+                                                  @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyle) {
+
+        BeerPageList beerList = beerService.listBeers(beerName, beerStyle, PageRequest.of(pageNumber, pageSize));
+
+        return new ResponseEntity<>(beerList, HttpStatus.OK);
     }
 
     @GetMapping("/{beerId}")

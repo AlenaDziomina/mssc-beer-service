@@ -6,6 +6,7 @@ import guru.springframework.msscbeerservice.web.model.BeerDto;
 import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
 import guru.springframework.msscbeerservice.web.repository.BeerRepository;
 import guru.springframework.msscbeerservice.web.service.BeerService;
+import guru.springframework.msscbeerservice.web.service.inventory.BeerInventoryService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,9 @@ class BeerControllerTest {
 
     @MockBean
     BeerService beerService;
+
+    @MockBean
+    BeerInventoryService inventoryService;
 
     @Test
     void getBeerById() throws Exception {

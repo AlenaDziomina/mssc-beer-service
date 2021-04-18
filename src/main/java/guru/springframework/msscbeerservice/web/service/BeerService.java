@@ -1,8 +1,10 @@
 package guru.springframework.msscbeerservice.web.service;
 
 import guru.springframework.msscbeerservice.web.model.BeerDto;
+import guru.springframework.msscbeerservice.web.model.BeerPageList;
+import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface BeerService {
@@ -13,5 +15,5 @@ public interface BeerService {
 
     void update(UUID beerId, BeerDto beerDto);
 
-    List<BeerDto> getAllBeer();
+    BeerPageList listBeers(String beerName, BeerStyleEnum beerStyle, Pageable pageRequest);
 }

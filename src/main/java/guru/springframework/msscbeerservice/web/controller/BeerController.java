@@ -32,9 +32,10 @@ public class BeerController {
     public ResponseEntity<BeerPageList> listBeers(@RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber,
                                                   @RequestParam(value = "pageSize", required = false, defaultValue = "2") Integer pageSize,
                                                   @RequestParam(value = "beerName", required = false) String beerName,
-                                                  @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyle) {
+                                                  @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyle,
+                                                  @RequestParam(value = "showInventoryOnHand", required = false, defaultValue = "false") boolean showInventoryOnHand) {
 
-        BeerPageList beerList = beerService.listBeers(beerName, beerStyle, PageRequest.of(pageNumber, pageSize));
+        BeerPageList beerList = beerService.listBeers(beerName, beerStyle, PageRequest.of(pageNumber, pageSize), showInventoryOnHand);
 
         return new ResponseEntity<>(beerList, HttpStatus.OK);
     }

@@ -51,7 +51,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public BeerPageList listBeers(String beerName, BeerStyleEnum beerStyle, Pageable pageRequest) {
+    public BeerPageList listBeers(String beerName, BeerStyleEnum beerStyle, Pageable pageRequest, boolean showInventoryOnHand) {
 
         BeerPageList beerPagedList;
         Page<Beer> beerPage;
@@ -69,15 +69,27 @@ public class BeerServiceImpl implements BeerService {
             beerPage = beerRepository.findAll(pageRequest);
         }
 
-        beerPagedList = new BeerPageList(beerPage
-                .getContent()
-                .stream()
-                .map(beerMapper::beerToBeerDto)
-                .collect(Collectors.toList()),
-                PageRequest
-                        .of(beerPage.getPageable().getPageNumber(),
-                                beerPage.getPageable().getPageSize()),
-                beerPage.getTotalElements());
+        if (showInventoryOnHand) {
+            beerPagedList = new BeerPageList(beerPage
+                    .getContent()
+                    .stream()
+                    .map(beerMapper::beerToBeerDtoWithInventory)
+                    .collect(Collectors.toList()),
+                    PageRequest
+                            .of(beerPage.getPageable().getPageNumber(),
+                                    beerPage.getPageable().getPageSize()),
+                    beerPage.getTotalElements());
+        } else {
+            beerPagedList = new BeerPageList(beerPage
+                    .getContent()
+                    .stream()
+                    .map(beerMapper::beerToBeerDto)
+                    .collect(Collectors.toList()),
+                    PageRequest
+                            .of(beerPage.getPageable().getPageNumber(),
+                                    beerPage.getPageable().getPageSize()),
+                    beerPage.getTotalElements());
+        }
 
         return beerPagedList;
     }

@@ -103,4 +103,13 @@ public class BeerServiceImpl implements BeerService {
 
         return beerPagedList;
     }
+
+    @Cacheable(cacheNames = "beerUpcCache", key = "#upc")
+    @Override
+    public BeerDto getByUpc(String upc) {
+        System.out.println("Not cache");
+        return beerMapper.beerToBeerDtoWithInventory(
+                beerRepository.findByUpc(upc).orElseThrow(NotFoundException::new)
+        );
+    }
 }
